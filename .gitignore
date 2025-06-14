@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+.ENV/
+.ENV.bak/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+db.sqlite3
+db.sqlite3-journal
+
+# Media
+/media/
+*.sqlite3
+
+# Static files
+static/
+
+# VSCode & PyCharm settings
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Secret & local env
+*.env
+.env*
+secrets.json
+
+# Migrations (optional, jika kamu ingin reset di dev awal)
+**/migrations/*.py
+!**/migrations/__init__.py

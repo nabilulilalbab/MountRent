@@ -1,0 +1,54 @@
+    {% if user.is_authenticated %}
+    <p>Halo, {{ user.username }} | <a href="{% url 'accounts:logout' %}">Logout</a></p>
+{% else %}
+    <a href="{% url 'accounts:login' %}">Login</a>
+{% endif %}
+<ul>
+        <li><a href="{% url 'gunung:home' %}">home</a></li>
+        <li><a href="{% url 'gunung:daftar' %}">daftar gunung</a></li>
+     </ul>
+<h1 class="text-2xl font-bold">{{ gunung.nama }}</h1>
+<img src="{{ gunung.foto.url }}" alt="{{ gunung.nama }}" class="my-4 rounded-lg">
+<p>{{ gunung.deskripsi|safe }}</p>
+
+<h2 class="text-xl mt-6 mb-2 font-semibold">Komentar & Testimoni</h2>
+
+{% for komen in komentar %}
+    <div class="bg-white p-4 rounded-lg shadow mb-3">
+        <p><strong>{{ komen.user.username }}</strong> rated {{ komen.rating }}/5</p>
+        <p>{{ komen.isi }}</p>
+        <p class="text-sm text-gray-500">{{ komen.created_at }}</p>
+    </div>
+{% empty %}
+    <p>Belum ada komentar.</p>
+{% endfor %}
+
+<div class="my-4">
+  {% if komentar.has_other_pages %}
+    <div class="pagination flex space-x-2">
+      {% if komentar.has_previous %}
+        <a href="?page={{ komentar.previous_page_number }}" class="px-3 py-1 bg-gray-300 rounded">Sebelumnya</a>
+      {% endif %}
+
+      <span class="px-3 py-1 bg-indigo-500 text-white rounded">{{ komentar.number }}</span>
+
+      {% if komentar.has_next %}
+        <a href="?page={{ komentar.next_page_number }}" class="px-3 py-1 bg-gray-300 rounded">Berikutnya</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+{% if user.is_authenticated %}
+    <h3 class="text-lg font-medium mt-6 mb-2">Tambahkan Komentar</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Kirim</button>
+    </form>
+{% else %}
+    <p>Silakan <a href="{% url 'accounts:login' %}" class="text-blue-600 underline">login</a> untuk memberi komentar.</p>
+{% endif %}
+<p class="text-yellow-600 text-lg font-semibold">
+  Rata-rata rating: {{ avg_rating }} / 5
+</p>

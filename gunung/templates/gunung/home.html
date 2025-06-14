@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MountInfo - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    {% if user.is_authenticated %}
+    <p>Halo, {{ user.username }} | <a href="{% url 'accounts:logout' %}">Logout</a></p>
+{% else %}
+    <a href="{% url 'accounts:login' %}">Login</a>
+{% endif %}
+    <ul>
+        <li><a href="{% url 'gunung:home' %}">home</a></li>
+        <li><a href="{% url 'gunung:daftar' %}">daftar gunung</a></li>
+     </ul>
+    <header class="bg-indigo-600 text-white p-6 shadow">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-3xl font-bold">MountInfo</h1>
+            <p class="text-sm">Informasi Gunung & Penyewaan Alat Mendaki</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto mt-8 p-4">
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold mb-2">Selamat datang di MountInfo</h2>
+            <p>Kami menyediakan informasi lengkap gunung di Indonesia dan layanan sewa alat pendakian untuk perjalananmu.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold">📍 Eksplor Gunung</h3>
+                <p class="text-sm mt-2 text-gray-600">Cari tahu info gunung, jalur pendakian, cuaca, dan checklist alat yang direkomendasikan.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold">🎒 Sewa Alat Pendakian</h3>
+                <p class="text-sm mt-2 text-gray-600">Butuh carrier, tenda, atau headlamp? Sewa alat langsung dari mitra terpercaya.</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

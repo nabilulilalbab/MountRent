@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <p>Halo, {{ user.username }} | <a href="{% url 'accounts:logout' %}">Logout</a></p>
+{% else %}
+    <a href="{% url 'accounts:login' %}">Login</a>
+{% endif %}
+<div class="max-w-4xl mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Daftar Gunung</h1>
+     <ul>
+        <li><a href="{% url 'gunung:home' %}">home</a></li>
+        <li><a href="{% url 'gunung:daftar' %}">daftar gunung</a></li>
+     </ul>
+    <form method="get" class="flex flex-wrap gap-2 mb-4">
+        <input type="text" name="q" placeholder="Cari gunung..." value="{{ query }}"
+               class="border p-2 rounded w-full sm:w-auto">
+        <select name="kategori" class="border p-2 rounded">
+            <option value="">Semua Kategori</option>
+            <option value="easy" {% if kategori == 'easy' %}selected{% endif %}>Easy</option>
+            <option value="medium" {% if kategori == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="hard" {% if kategori == 'hard' %}selected{% endif %}>Hard</option>
+        </select>
+        <button class="bg-indigo-500 text-white px-4 py-2 rounded">Filter</button>
+    </form>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {% for gunung in gunung_list %}
+            <a href="{% url 'gunung:detail' gunung.slug %}" class="bg-white p-4 rounded shadow hover:shadow-lg">
+                <img src="{{ gunung.foto.url }}" alt="{{ gunung.nama }}" class="w-full h-48 object-cover rounded mb-2">
+                <h2 class="text-xl font-semibold">{{ gunung.nama }}</h2>
+                <p class="text-sm text-gray-600 capitalize">{{ gunung.kategori }}</p>
+            </a>
+        {% empty %}
+            <p class="text-gray-500">Tidak ada gunung ditemukan.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
