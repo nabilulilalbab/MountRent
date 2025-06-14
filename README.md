@@ -138,6 +138,5 @@ Silakan fork dan kirim perubahanmu.
 
 MIT License – bebas digunakan dan dimodifikasi.
 
-```
 
 
