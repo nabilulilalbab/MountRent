@@ -1,0 +1,16 @@
+<h2>Dashboard Mitra</h2>
+{% if toko %}
+  <p><strong>Nama Toko:</strong> {{ toko.nama }}</p>
+  <p><a href="{% url 'toko:tambah_produk' %}">Tambah Produk</a></p>
+  <ul>
+    {% for p in produk %}
+      <li>
+        {{ p.nama }} - Rp{{ p.harga }} |
+        <a href="{% url 'toko:edit_produk' p.pk %}">Edit</a> |
+        <a href="{% url 'toko:hapus_produk' p.pk %}">Hapus</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Anda belum memiliki toko. <a href="{% url 'toko:tambah_toko' %}">Buat Sekarang</a></p>
+{% endif %}

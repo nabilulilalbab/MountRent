@@ -1,5 +1,5 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
 
@@ -14,7 +14,7 @@ KATEGORI_CHOICES = [
 class Gunung(models.Model):
     nama = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
-    deskripsi = RichTextField()
+    deskripsi = RichTextUploadingField()
     foto = models.ImageField(upload_to='foto_gunung/')
     kategori = models.CharField(max_length=10, choices=KATEGORI_CHOICES)
     template_file = models.FileField(upload_to='template_gunung/', blank=True, null=True)

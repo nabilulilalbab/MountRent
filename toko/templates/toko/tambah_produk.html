@@ -1,0 +1,9 @@
+<h2 class="text-xl font-bold mb-4">
+  {% if form.instance.pk %}Edit Produk{% else %}Tambah Produk{% endif %}
+</h2>
+
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Simpan</button>
+</form>

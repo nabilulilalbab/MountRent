@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rental',  # Custom app for rentals
     'toko',  # Custom app for the shop
     'ckeditor',
+    'ckeditor_uploader',
 ]
 
 
@@ -88,6 +89,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_UPLOAD_PATH = "uploads/" 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'extraPlugins': 'codesnippet',
+    },
 }
 
 AUTH_USER_MODEL = 'accounts.User'

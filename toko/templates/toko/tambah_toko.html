@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tambah Toko</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 400px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+    }
+    form label {
+      display: block;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tambah Toko</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Nama:</label>
+    {{ form.nama }}
+
+    <label>Alamat:</label>
+    {{ form.alamat }}
+
+    <label>Kabupaten:</label>
+    {{ form.kabupaten }}
+
+    <div id="map"></div>
+
+    <button type="button" onclick="setCurrentLocation()">📍 Gunakan Lokasi Saya</button>
+
+    <!-- Disembunyikan -->
+    <div class="hidden">
+      {{ form.latitude }}
+      {{ form.longitude }}
+    </div>
+
+    <button type="submit">💾 Simpan</button>
+  </form>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const map = L.map('map').setView([-7.05, 110.4], 10);  // fallback lokasi
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+      }).addTo(map);
+
+      let marker;
+
+      function setMarker(lat, lng) {
+        if (marker) {
+          map.removeLayer(marker);
+        }
+        marker = L.marker([lat, lng]).addTo(map);
+        map.setView([lat, lng], 14);
+        document.getElementById("id_latitude").value = lat;
+        document.getElementById("id_longitude").value = lng;
+      }
+
+      map.on('click', function (e) {
+        setMarker(e.latlng.lat, e.latlng.lng);
+      });
+
+      window.setCurrentLocation = function () {
+        if (!navigator.geolocation) {
+          alert("Geolocation tidak didukung di browser Anda.");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+          setMarker(position.coords.latitude, position.coords.longitude);
+        }, function (err) {
+          alert("Gagal mendapatkan lokasi: " + err.message);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

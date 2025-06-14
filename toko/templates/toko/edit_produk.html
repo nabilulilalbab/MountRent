@@ -1,0 +1,15 @@
+<h2 class="text-xl font-semibold mb-4">
+  {% if form.instance.pk %}
+    Edit Produk
+  {% else %}
+    Tambah Produk
+  {% endif %}
+</h2>
+
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+    Simpan
+  </button>
+</form>

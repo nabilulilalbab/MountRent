@@ -1,0 +1,32 @@
+<h2>{{ toko.nama }}</h2>
+<p>{{ toko.alamat }} - {{ toko.kabupaten }}</p>
+
+<form method="get">
+  <input type="text" name="q" value="{{ query }}" placeholder="Cari produk...">
+  <button type="submit">Cari</button>
+</form>
+
+<form action="https://wa.me/{{ toko.user.no_hp }}" method="get" target="_blank" onsubmit="return submitWhatsAppForm(this);">
+  {% for p in produk %}
+    <label>
+      <input type="checkbox" name="produk" value="{{ p.nama }}"> {{ p.nama }} - Rp{{ p.harga }}
+    </label><br>
+  {% endfor %}
+  <button type="submit">Sewa via WhatsApp</button>
+</form>
+
+<script>
+function submitWhatsAppForm(form) {
+  const checked = [...form.querySelectorAll('input[name="produk"]:checked')];
+  if (checked.length === 0) {
+    alert("Pilih setidaknya satu produk!");
+    return false;
+  }
+
+  const produkList = checked.map(cb => `- ${cb.value}`).join('%0A');
+  const pesan = `Halo, saya ingin menyewa alat berikut:%0A${produkList}`;
+  const nomor = form.action;
+  window.open(`${nomor}?text=${pesan}`, '_blank');
+  return false;
+}
+</script>
