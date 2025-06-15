@@ -79,7 +79,7 @@ def cari_toko(request):
 
     return JsonResponse({'hasil': hasil})
 
-
+@login_required
 def dashboard_mitra(request):
     if request.user.role != 'mitra':
         return HttpResponseForbidden("Hanya mitra yang bisa mengakses dashboard ini")
