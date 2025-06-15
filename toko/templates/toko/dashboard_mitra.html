@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <h2>Dashboard Mitra</h2>
 {% if toko %}
   <p><strong>Nama Toko:</strong> {{ toko.nama }}</p>
@@ -14,3 +16,4 @@
 {% else %}
   <p>Anda belum memiliki toko. <a href="{% url 'toko:tambah_toko' %}">Buat Sekarang</a></p>
 {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+<nav style="background: #f8f8f8; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+  <div>
+    <a href="{% url 'gunung:home' %}"><strong>🏕️ Mount Rent</strong></a>
+  </div>
+
+  <div>
+    {% if user.is_authenticated %}
+      <span style="margin-right: 1rem;">
+        👤 {{ user.username }} ({{ user.role|capfirst }})
+      </span>
+
+      {% if user.role == 'mitra' %}
+        <a href="{% url 'toko:dashboard_mitra' %}" style="margin-right: 1rem;">📦 Dashboard Mitra</a>
+        <a href="{% url 'toko:tambah_produk' %}" style="margin-right: 1rem;">➕ Tambah Produk</a>
+
+      {% endif %}
+
+      <a href="{% url 'accounts:logout' %}" style="margin-right: 1rem;">🔓 Logout</a>
+      <a href="{% url 'gunung:daftar' %}" style="margin-right: 1rem;">🏕️ daftar gunung</a>
+      <a href="{% url 'toko:toko_leaflet_page' %}"><strong>🏕️ Cari Toko</strong></a>
+    {% else %}
+      <a href="{% url 'accounts:login' %}" style="margin-right: 1rem;">🔒 Login</a>
+      <a href="{% url 'accounts:register_user' %}" style="margin-right: 0.5rem;">📝 Daftar User</a>
+      <a href="{% url 'accounts:register_mitra' %}">📝 Daftar Mitra</a>
+    {% endif %}
+  </div>
+</nav>

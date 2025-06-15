@@ -25,17 +25,22 @@ def tambah_toko(request):
     if request.user.role != 'mitra':
         return HttpResponseForbidden("Hanya pengguna dengan role 'mitra' yang dapat menambahkan toko.")
 
+    # Cegah duplikasi
+    if Toko.objects.filter(user=request.user).exists():
+        return HttpResponseForbidden("Anda sudah memiliki toko.")
+
     if request.method == 'POST':
         form = TokoForm(request.POST)
         if form.is_valid():
             toko = form.save(commit=False)
-            toko.user = request.user  # jika model Toko ada field user
+            toko.user = request.user
             toko.save()
-            return redirect('toko:toko_leaflet_page')
+            return redirect('toko:dashboard_mitra')
     else:
         form = TokoForm()
     
     return render(request, 'toko/tambah_toko.html', {'form': form})
+
 
 
 def cari_toko(request):

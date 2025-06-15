@@ -20,7 +20,7 @@ def user_register(request):
 def mitra_register(request):
     if request.user.is_authenticated:
         if request.user.role == 'mitra':
-            return redirect('mitra_dashboard')
+            return redirect('toko:dashboard_mitra')
         else:
             return redirect('home')
 
@@ -29,7 +29,7 @@ def mitra_register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('mitra_dashboard')
+            return redirect('toko:dashboard_mitra')
     else:
         form = MitraRegisterForm()
     return render(request, 'accounts/register_mitra.html', {'form': form})
@@ -41,13 +41,13 @@ class CustomLoginView(LoginView):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if request.user.role == 'mitra':
-                return redirect('mitra_dashboard')
+                return redirect('toko:dashboard_mitra')
             else:
                 return redirect('home')
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         if self.request.user.role == 'mitra':
-            return '/mitra/dashboard/'
+            return '/toko/dashboard/'
         else:
             return '/'  # redirect ke halaman user biasa

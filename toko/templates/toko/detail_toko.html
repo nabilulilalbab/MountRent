@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <h2>{{ toko.nama }}</h2>
 <p>{{ toko.alamat }} - {{ toko.kabupaten }}</p>
 
@@ -30,3 +32,4 @@ function submitWhatsAppForm(form) {
   return false;
 }
 </script>
+{% endblock %}

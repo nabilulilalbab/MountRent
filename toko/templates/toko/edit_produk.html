@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <h2 class="text-xl font-semibold mb-4">
   {% if form.instance.pk %}
     Edit Produk
@@ -13,3 +15,4 @@
     Simpan
   </button>
 </form>
+{% endblock %}

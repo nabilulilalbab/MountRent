@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Tambah Toko</title>
+{% extends "base.html" %}
+{% block content %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>
+<style>
     #map {
       height: 400px;
       margin-bottom: 1rem;
@@ -18,8 +15,7 @@
       display: none;
     }
   </style>
-</head>
-<body>
+
   <h2>Tambah Toko</h2>
   <form method="POST">
     {% csrf_token %}
@@ -83,5 +79,4 @@
       }
     });
   </script>
-</body>
-</html>
+{% endblock %}
