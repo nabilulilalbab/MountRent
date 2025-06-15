@@ -122,7 +122,7 @@ def hapus_produk(request, pk):
 
 def detail_toko(request, pk):
     toko = get_object_or_404(Toko, pk=pk)
-    produk = toko.produk.all()
+    produk = toko.produk.all().filter(is_active=True)
     query = request.GET.get('q')
     if query:
         produk = produk.filter(nama__icontains=query)

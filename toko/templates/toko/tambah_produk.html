@@ -37,6 +37,16 @@
         <p class="text-red-600 text-sm mt-1">{{ form.harga.errors.0 }}</p>
       {% endif %}
     </div>
+    <div>
+      <label for="{{ form.is_active.id_for_label }}" class="inline-flex items-center">
+        {{ form.is_active|add_class:"mr-2" }}
+        <span class="text-sm font-medium text-gray-700">Aktifkan Produk</span>
+      </label>
+      {% if form.is_active.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ form.is_active.errors.0 }}</p>
+      {% endif %}
+    </div>
+
 
 
 
