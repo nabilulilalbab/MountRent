@@ -4,7 +4,7 @@
 {% block content %}
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
   <h2 class="text-2xl font-bold mb-6 text-center">Daftar Mitra</h2>
-  <form method="post" class="space-y-4">
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
     {% csrf_token %}
     {% for field in form %}
       <div>
