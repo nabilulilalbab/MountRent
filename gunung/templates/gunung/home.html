@@ -1,36 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
+{%load static %}
     {% if user.is_authenticated %}
     <p>Halo, {{ user.username }} | <a href="{% url 'accounts:logout' %}">Logout</a></p>
 {% else %}
-    <a href="{% url 'accounts:login' %}">Login</a>
+    <a href="{% url 'accounts:login' %}"></a>
 {% endif %}
     <ul>
-        <li><a href="{% url 'gunung:home' %}">home</a></li>
-        <li><a href="{% url 'gunung:daftar' %}">daftar gunung</a></li>
+        <li><a href="{% url 'gunung:home' %}"></a></li>
      </ul>
-    <header class="bg-indigo-600 text-white p-6 shadow">
-        <div class="max-w-6xl mx-auto">
-            <h1 class="text-3xl font-bold">MountInfo</h1>
-            <p class="text-sm">Informasi Gunung & Penyewaan Alat Mendaki</p>
-        </div>
+
+    <header class=" text-white p-6 -mb-11">
+    <div class="flex gap-2 justify-center items-center border-white border-2 px-2 py-1 rounded-xl w-max mx-auto shadow-md">
+        <h1 class="font-bold border-2 bg-black border-black text-white px-4 py-1 rounded-xl">
+            MountInfo
+        </h1>
+        <p class="text-sm text-black">Informasi Gunung & Penyewaan Alat Mendaki</p>
+    </div>
+
+    <div class="max-w-6xl mx-auto mt-4 text-center">
+        <a href="{% url 'gunung:daftar' %}" class="text-white font-semibold bg-blue-500 p-2 rounded-xl hover:bg-blue-600 transition shadow-md hover:shadow-lg">
+        daftar gunung
+        </a>
+    </div>
     </header>
 
-    <main class="max-w-6xl mx-auto mt-8 p-4">
-        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-            <h2 class="text-xl font-bold mb-2">Selamat datang di MountInfo</h2>
-            <p>Kami menyediakan informasi lengkap gunung di Indonesia dan layanan sewa alat pendakian untuk perjalananmu.</p>
-        </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-xl shadow-md">
+   <main class="relative">
+    <!-- Gambar full screen -->
+    <img src="{% static "images/bg-mountain.png" %}" 
+        class="absolute top-0 left-0 w-full  z-0" 
+        alt="">
+
+    <!-- Konten yang tampil di atas gambar -->
+    <div class="relative z-10 max-w-6xl mx-auto mt-8 p-4">
+        <div class="  p-6 mb-6 mt-28">
+        <h2 class="text-5xl font-bold mb- text-center">Selamat datang di <span class="text-blue-500">MountInfo</span></h2>
+        <p class="text-center mt-2">Kami menyediakan informasi lengkap gunung di Indonesia dan layanan sewa alat pendakian untuk perjalananmu.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-md mt-96">
                 <h3 class="text-lg font-semibold">📍 Eksplor Gunung</h3>
                 <p class="text-sm mt-2 text-gray-600">Cari tahu info gunung, jalur pendakian, cuaca, dan checklist alat yang direkomendasikan.</p>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-md">
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md mt-96">
                 <h3 class="text-lg font-semibold">🎒 Sewa Alat Pendakian</h3>
                 <p class="text-sm mt-2 text-gray-600">Butuh carrier, tenda, atau headlamp? Sewa alat langsung dari mitra terpercaya.</p>
-            </div>
         </div>
+        </div>
+    </div>
     </main>
+
 {% endblock content %}
