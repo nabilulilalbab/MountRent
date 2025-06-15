@@ -13,8 +13,8 @@
         <li><a href="{% url 'gunung:daftar' %}">daftar gunung</a></li>
      </ul>
     <form method="get" class="flex flex-wrap gap-2 mb-4">
-        <input type="text" name="q" placeholder="Cari gunung..." value="{{ query }}"
-               class="border p-2 rounded w-full sm:w-auto">
+        <input type="text" name="q" placeholder="Cari gunung..." value="{{ query|default_if_none:'' }}"
+       class="border p-2 rounded w-full sm:w-auto">
         <select name="kategori" class="border p-2 rounded">
             <option value="">Semua Kategori</option>
             <option value="easy" {% if kategori == 'easy' %}selected{% endif %}>Easy</option>
