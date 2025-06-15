@@ -19,7 +19,8 @@
       <a href="{% url 'gunung:daftar' %}" style="margin-right: 1rem;">🏕️ daftar gunung</a>
       <a href="{% url 'toko:toko_leaflet_page' %}"><strong>🏕️ Cari Toko</strong></a>
     {% else %}
-      <a href="{% url 'accounts:login' %}" style="margin-right: 1rem;">🔒 Login</a>
+      <a href="{% url 'accounts:login_user' %}" style="margin-right: 1rem;">🔒 Login user</a>
+      <a href="{% url 'accounts:login_mitra' %}" style="margin-right: 1rem;">🔒 Login mitra</a>
       <a href="{% url 'accounts:register_user' %}" style="margin-right: 0.5rem;">📝 Daftar User</a>
       <a href="{% url 'accounts:register_mitra' %}">📝 Daftar Mitra</a>
     {% endif %}

@@ -4,7 +4,8 @@
     {% if user.is_authenticated %}
     <p>Halo, {{ user.username }} | <a href="{% url 'accounts:logout' %}">Logout</a></p>
 {% else %}
-    <a href="{% url 'accounts:login' %}"></a>
+      <a href="{% url 'accounts:login_user' %}" style="margin-right: 1rem;">🔒 Login user</a>
+      <a href="{% url 'accounts:login_mitra' %}" style="margin-right: 1rem;">🔒 Login mitra</a>
 {% endif %}
     <ul>
         <li><a href="{% url 'gunung:home' %}"></a></li>

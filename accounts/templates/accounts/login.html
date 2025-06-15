@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-  <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+  <h2 class="text-2xl font-bold mb-6 text-center">{{ title|default:"Login" }}</h2> <!-- Gunakan variabel title -->
   <form method="post" class="space-y-4">
     {% csrf_token %}
     {% for field in form %}

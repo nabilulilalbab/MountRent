@@ -10,7 +10,8 @@
           <p>Halo, <span class="font-semibold">{{ user.username }}</span> |
             <a href="{% url 'accounts:logout' %}" class="text-red-600 hover:underline">Logout</a></p>
         {% else %}
-          <a href="{% url 'accounts:login' %}" class="text-blue-600 hover:underline">Login</a>
+                <a href="{% url 'accounts:login_user' %}" style="margin-right: 1rem;">🔒 Login user</a>
+                <a href="{% url 'accounts:login_mitra' %}" style="margin-right: 1rem;">🔒 Login mitra</a>
         {% endif %}
       </div>
     </div>
@@ -88,7 +89,7 @@
       </form>
     {% else %}
       <p class="mt-6">Silakan
-        <a href="{% url 'accounts:login' %}" class="text-blue-600 underline hover:text-blue-800">
+        <a href="{% url 'accounts:login_user' %}" class="text-blue-600 underline hover:text-blue-800">
           login
         </a> untuk memberi komentar.
       </p>
