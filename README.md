@@ -2,7 +2,39 @@
 
 Proyek Django untuk manajemen dan eksplorasi informasi gunung. Termasuk fitur komentar, rating, penghitungan pengunjung, serta pengelompokan berdasarkan kategori kesulitan.
 
-## 📁 Struktur Folder
+Django project for mountain information management and exploration. Includes features for comments, ratings, visitor counting, and difficulty-based categorization.
+
+## 🎯 Fitur Utama / Main Features
+
+### 🏔 Informasi Gunung / Mountain Information
+- Daftar gunung dengan kategori kesulitan (Easy, Medium, Hard)
+- Deskripsi gunung dengan dukungan gambar
+- Template/checklist pendakian yang dapat diunduh
+- Pencarian dan filter gunung berdasarkan nama dan tingkat kesulitan
+- Penghitung pengunjung halaman gunung
+- Sistem komentar dan rating
+- Tampilan komentar dengan paginasi
+
+### 👥 Manajemen Pengguna / User Management
+- Model pengguna kustom dengan akses berbasis peran
+- Tiga peran pengguna: User, Mitra (Partner), dan Admin
+- Profil pengguna dengan nomor telepon dan alamat
+- Sistem autentikasi dengan login/logout
+
+### 🏪 Sistem Toko / Shop System
+- Daftar toko dengan data lokasi (latitude/longitude)
+- Manajemen produk
+- Dashboard pemilik toko (Mitra)
+- Kategorisasi dan harga produk
+
+### ➕ Fitur Tambahan / Additional Features
+- Manajemen layanan rental
+- Sistem feedback
+- Rich text editing dengan integrasi CKEditor
+- Manajemen file static dan media
+- UI yang responsif
+
+## 📁 Struktur Folder / Directory Structure
 
 ```
 
@@ -74,39 +106,60 @@ Buka di browser: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
-## 🧪 Fitur Utama
+## 🔐 Peran Pengguna / User Roles
 
-* [x] Registrasi & login user
-* [x] CRUD data gunung
-* [x] Komentar dan rating per gunung
-* [x] Hitung rata-rata rating
-* [x] Hitung total view tiap gunung
-* [ ] Testimoni & feedback
-* [ ] Sewa peralatan (rental)
-* [ ] Toko/affiliate produk outdoor
+### 1. User (Pendaki / Climber)
+- Lihat informasi gunung / View mountain information
+- Posting komentar dan rating / Post comments and ratings
+- Akses layanan rental / Access rental services
+- Lihat daftar toko / View shop listings
 
----
+### 2. Mitra (Partner)
+- Semua fitur User / All User features
+- Kelola toko mereka / Manage their shop
+- Tambah/edit produk / Add/edit products
+- Kelola item rental / Manage rental items
+
+### 3. Admin
+- Akses penuh ke admin interface / Full access to admin interface
+- Kelola semua konten dan pengguna / Manage all content and users
+- Akses ke semua fitur / Access to all features
+
+## 💻 Tech Stack
+
+- Python 3.x
+- Django 4.2.3
+- SQLite Database
+- django-ckeditor 6.7.3
+- Pillow 11.2.1
+- Whitenoise 6.9.0
+- HTML/CSS/JavaScript
 
 ## 📦 Media & Static Files
 
-Pastikan folder `media/` dan `static/` tersedia:
-
-```bash
-mkdir media static
+Struktur folder media / Media folder structure:
+```
+media/
+├── foto_gunung/       # Foto gunung / Mountain photos
+├── template_gunung/   # Template pendakian / Climbing templates
+└── uploads/           # Upload CKEditor / CKEditor uploads
 ```
 
-Jangan lupa di development, tambahkan ini di `settings.py`:
-
+Konfigurasi di settings.py / Settings.py configuration:
 ```python
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# CKEditor configuration
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
 ```
 
-Dan tambahkan ini di `urls.py` utama:
-
+Dan di urls.py utama / And in main urls.py:
 ```python
 from django.conf import settings
 from django.conf.urls.static import static
@@ -118,25 +171,56 @@ urlpatterns = [
 
 ---
 
-## ✅ TODO (opsional)
+## 🧪 Testing
 
-* [ ] Pagination komentar
-* [ ] Dashboard admin dengan grafik sederhana
-* [ ] Filter gunung berdasarkan kategori & pencarian
-* [ ] Integrasi upload file template per gunung
+Menjalankan test suite / Run the test suite:
+```bash
+python manage.py test
+```
 
----
+## 🔄 Development Workflow
 
-## 🧑‍💻 Kontribusi
+1. Fork repositori / Fork the repository
+2. Buat branch fitur / Create feature branch
+3. Commit perubahan / Commit changes
+4. Push ke branch / Push to branch
+5. Buat Pull Request / Create Pull Request
 
-Pull request dan ide sangat diterima!
-Silakan fork dan kirim perubahanmu.
+## ✅ TODO (Pengembangan Lanjutan / Future Development)
 
----
+### Frontend
+* [ ] Implementasi PWA / PWA implementation
+* [ ] Dark mode toggle / Dark mode toggle
+* [ ] Optimasi gambar / Image optimization
+* [ ] Peta interaktif / Interactive maps
 
-## 📄 Lisensi
+### Backend
+* [ ] Cache system dengan Redis / Redis cache system
+* [ ] API endpoints untuk mobile app / API endpoints for mobile app
+* [ ] Integrasi pembayaran / Payment integration
+* [ ] Export data ke PDF / PDF data export
 
-MIT License – bebas digunakan dan dimodifikasi.
+### Keamanan / Security
+* [ ] Rate limiting
+* [ ] OAuth integration
+* [ ] HTTPS enforcement
+* [ ] Security headers
+
+## 🤝 Kontribusi / Contributing
+
+Kami sangat menghargai kontribusi Anda! / We greatly appreciate your contributions!
+
+1. Fork repositori / Fork the repository
+2. Buat branch (`git checkout -b fitur-keren`)
+3. Commit perubahan (`git commit -am 'Menambah fitur keren'`)
+4. Push ke branch (`git push origin fitur-keren`)
+5. Buat Pull Request
+
+## 📄 Lisensi / License
+
+MIT License – Bebas digunakan dan dimodifikasi / Free to use and modify
+
+Copyright © 2025
 
 
 
