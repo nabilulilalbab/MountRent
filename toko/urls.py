@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+
 app_name='toko'
 urlpatterns = [
     path('temukan/', views.toko_leaflet_page, name='toko_leaflet_page'),
