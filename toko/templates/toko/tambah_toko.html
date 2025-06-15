@@ -1,50 +1,58 @@
 {% extends "base.html" %}
+{% load form_filters %}
+
 {% block content %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<style>
-    #map {
-      height: 400px;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-    }
-    form label {
-      display: block;
-      margin-top: 10px;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
 
-  <h2>Tambah Toko</h2>
-  <form method="POST">
-    {% csrf_token %}
-    <label>Nama:</label>
-    {{ form.nama }}
+  <div class="max-w-2xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-semibold mb-6">➕ Tambah Toko</h2>
 
-    <label>Alamat:</label>
-    {{ form.alamat }}
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
 
-    <label>Kabupaten:</label>
-    {{ form.kabupaten }}
+      <div>
+        <label class="block font-medium text-gray-700">Nama:</label>
+        {{ form.nama|add_class:"mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" }}
+      </div>
 
-    <div id="map"></div>
+      <div>
+        <label class="block font-medium text-gray-700">Alamat:</label>
+        {{ form.alamat|add_class:"mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" }}
+      </div>
 
-    <button type="button" onclick="setCurrentLocation()">📍 Gunakan Lokasi Saya</button>
+      <div>
+        <label class="block font-medium text-gray-700">Kabupaten:</label>
+        {{ form.kabupaten|add_class:"mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" }}
+      </div>
 
-    <!-- Disembunyikan -->
-    <div class="hidden">
-      {{ form.latitude }}
-      {{ form.longitude }}
-    </div>
+      <div class="mt-6">
+        <label class="block font-medium text-gray-700 mb-2">Tentukan Lokasi di Peta</label>
+        <div id="map" class="h-64 rounded-md shadow border border-gray-300"></div>
+      </div>
 
-    <button type="submit">💾 Simpan</button>
-  </form>
+      <div class="mt-2">
+        <button type="button" onclick="setCurrentLocation()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+          📍 Gunakan Lokasi Saya
+        </button>
+      </div>
+
+      <div class="hidden">
+        {{ form.latitude }}
+        {{ form.longitude }}
+      </div>
+
+      <div class="pt-4">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+          💾 Simpan
+        </button>
+      </div>
+    </form>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const map = L.map('map').setView([-7.05, 110.4], 10);  // fallback lokasi
+      const map = L.map('map').setView([-7.05, 110.4], 10);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19
       }).addTo(map);

@@ -2,74 +2,46 @@
 {% block content %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 1rem;
-      max-width: 800px;
-      margin: auto;
-    }
-    #map {
-      height: 400px;
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-    }
-    form {
-      margin-bottom: 1rem;
-    }
-    label {
-      font-weight: bold;
-      margin-top: 1rem;
-      display: block;
-    }
-    input, select, button {
-      padding: 0.5rem;
-      margin-top: 0.2rem;
-      width: 100%;
-      max-width: 100%;
-    }
-    ul#hasil {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    ul#hasil li {
-      background: #f0f0f0;
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      border-radius: 5px;
-    }
-  </style>
 
+  <div class="max-w-3xl mx-auto px-4 py-6">
+    <h2 class="text-2xl font-semibold mb-4 flex items-center gap-2">🔍 Temukan Toko</h2>
 
-  <h2>🔍 Temukan Toko</h2>
+    <form id="search-form" class="space-y-4">
+      <div>
+        <label for="searchBy" class="block font-medium text-gray-700">Cari Berdasarkan</label>
+        <select id="searchBy" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+          <option value="nama">Nama Toko</option>
+          <option value="kabupaten">Kabupaten</option>
+          <option value="lokasi">Lokasi Saya</option>
+        </select>
+      </div>
 
-  <form id="search-form">
-    <label for="searchBy">Cari Berdasarkan</label>
-    <select id="searchBy">
-      <option value="nama">Nama Toko</option>
-      <option value="kabupaten">Kabupaten</option>
-      <option value="lokasi">Lokasi Saya</option>
-    </select>
+      <div id="search-input-wrapper">
+        <label for="searchInput" class="block font-medium text-gray-700">Kata Kunci</label>
+        <input type="text" id="searchInput" name="searchInput" placeholder="Contoh: Toko Outdoor" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
+      </div>
 
-    <div id="search-input-wrapper">
-      <label for="searchInput">Kata Kunci</label>
-      <input type="text" id="searchInput" name="searchInput" placeholder="Contoh: Toko Outdoor" />
-    </div>
+      <div id="radius-wrapper" class="hidden">
+        <label for="radius" class="block font-medium text-gray-700">Radius (km)</label>
+        <input type="number" id="radius" name="radius" value="25" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500" />
+      </div>
 
-    <div id="radius-wrapper" class="hidden" style="display: none;">
-      <label for="radius">Radius (km)</label>
-      <input type="number" id="radius" name="radius" value="25" />
-    </div>
+      <div class="flex flex-col sm:flex-row gap-2 pt-2">
+        <button type="button" id="btnLokasi" onclick="getCurrentLocationAndSearch()" class="hidden bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+          📍 Cari dengan Lokasi Saya
+        </button>
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
+          🔍 Cari
+        </button>
+      </div>
+    </form>
 
-    <div style="margin-top: 1rem;">
-      <button type="button" id="btnLokasi" onclick="getCurrentLocationAndSearch()" style="display: none;">📍 Cari dengan Lokasi Saya</button>
-      <button type="submit">🔍 Cari</button>
-    </div>
-  </form>
+    <div id="map" class="w-full h-80 mt-6 rounded-md shadow-md border"></div>
 
-  <div id="map"></div>
-
-  <ul id="hasil"></ul>
+    <ul id="hasil" class="mt-6 space-y-4">
+      <!-- Hasil pencarian akan tampil di sini -->
+    </ul>
+  </div>
 
   <script>
     const map = L.map('map').setView([-7.05, 110.4], 10);
@@ -83,13 +55,18 @@
       markers = [];
 
       if (!data.hasil || data.hasil.length === 0) {
-        hasil.innerHTML = "<li>Tidak ada hasil ditemukan</li>";
+        hasil.innerHTML = "<li class='text-gray-600'>Tidak ada hasil ditemukan</li>";
         return;
       }
 
       data.hasil.forEach(toko => {
         const li = document.createElement('li');
-        li.innerHTML = `<a href="/toko/toko/${toko.id}/"><strong>${toko.nama}</strong><br>${toko.alamat}<br>${toko.kabupaten} (${toko.jarak ?? '-'} km)</a><br>`;
+        li.innerHTML = `
+          <a href="/toko/toko/${toko.id}/" class="block p-4 bg-gray-100 rounded-lg shadow hover:bg-gray-200 transition">
+            <div class="font-semibold text-lg">${toko.nama}</div>
+            <div class="text-sm text-gray-700">${toko.alamat}</div>
+            <div class="text-sm text-gray-500">${toko.kabupaten} (${toko.jarak ?? '-'} km)</div>
+          </a>`;
         hasil.appendChild(li);
 
         const marker = L.marker([toko.latitude, toko.longitude])
@@ -106,13 +83,13 @@
       const btnLokasi = document.getElementById("btnLokasi");
 
       if (mode === "lokasi") {
-        inputWrapper.style.display = "none";
-        radiusWrapper.style.display = "block";
-        btnLokasi.style.display = "inline-block";
+        inputWrapper.classList.add("hidden");
+        radiusWrapper.classList.remove("hidden");
+        btnLokasi.classList.remove("hidden");
       } else {
-        inputWrapper.style.display = "block";
-        radiusWrapper.style.display = "none";
-        btnLokasi.style.display = "none";
+        inputWrapper.classList.remove("hidden");
+        radiusWrapper.classList.add("hidden");
+        btnLokasi.classList.add("hidden");
       }
     });
 
@@ -121,7 +98,7 @@
       const mode = document.getElementById("searchBy").value;
       const keyword = document.getElementById("searchInput").value.trim();
 
-      if (mode === "lokasi") return; // Gunakan tombol lokasi
+      if (mode === "lokasi") return;
 
       let url = `/toko/cari/?`;
       if (mode === "nama") url += `nama=${encodeURIComponent(keyword)}`;
@@ -155,5 +132,4 @@
       });
     }
   </script>
-
 {% endblock %}

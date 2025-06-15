@@ -1,19 +1,52 @@
 {% extends "base.html" %}
+{% load humanize %}
+
 {% block content %}
-<h2>Dashboard Mitra</h2>
-{% if toko %}
-  <p><strong>Nama Toko:</strong> {{ toko.nama }}</p>
-  <p><a href="{% url 'toko:tambah_produk' %}">Tambah Produk</a></p>
-  <ul>
-    {% for p in produk %}
-      <li>
-        {{ p.nama }} - Rp{{ p.harga }} |
-        <a href="{% url 'toko:edit_produk' p.pk %}">Edit</a> |
-        <a href="{% url 'toko:hapus_produk' p.pk %}">Hapus</a>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>Anda belum memiliki toko. <a href="{% url 'toko:tambah_toko' %}">Buat Sekarang</a></p>
-{% endif %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">📋 Dashboard Mitra</h2>
+
+  {% if toko %}
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+      <p class="text-gray-700 mb-2"><span class="font-semibold">Nama Toko:</span> {{ toko.nama }}</p>
+      <a href="{% url 'toko:tambah_produk' %}"
+         class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md shadow">
+        ➕ Tambah Produk
+      </a>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Daftar Produk</h3>
+      <ul class="space-y-3">
+        {% for p in produk %}
+          <li class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded p-4">
+            <div>
+              <p class="font-medium text-gray-800">{{ p.nama }}</p>
+              <p class="text-sm text-gray-600">Rp{{ p.harga|floatformat:0|intcomma }}</p>
+            </div>
+            <div class="flex gap-2">
+              <a href="{% url 'toko:edit_produk' p.pk %}"
+                 class="text-sm bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-md shadow">
+                ✏️ Edit
+              </a>
+              <a href="{% url 'toko:hapus_produk' p.pk %}"
+                 class="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md shadow">
+                🗑️ Hapus
+              </a>
+            </div>
+          </li>
+        {% empty %}
+          <li class="text-gray-500">Belum ada produk.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 p-4 rounded shadow">
+      <p class="mb-2">⚠️ Anda belum memiliki toko.</p>
+      <a href="{% url 'toko:tambah_toko' %}"
+         class="inline-block bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-md shadow">
+        🏪 Buat Toko Sekarang
+      </a>
+    </div>
+  {% endif %}
+</div>
 {% endblock %}
