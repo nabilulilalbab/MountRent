@@ -14,4 +14,4 @@ class TokoForm(forms.ModelForm):
 class ProdukForm(forms.ModelForm):
     class Meta:
         model = Produk
-        fields = ['nama', 'deskripsi', 'harga', 'is_active']
+        fields = ['nama', 'deskripsi', 'harga','foto_produk', 'is_active']

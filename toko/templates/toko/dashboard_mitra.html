@@ -19,9 +19,23 @@
       <ul class="space-y-3">
         {% for p in produk %}
           <li class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded p-4">
-            <div>
-              <p class="font-medium text-gray-800">{{ p.nama }}</p>
-              <p class="text-sm text-gray-600">Rp{{ p.harga|floatformat:0|intcomma }}</p>
+            <div class="flex items-start gap-4">
+              {% if p.foto_produk %}
+                <img src="{{ p.foto_produk.url }}" alt="foto produk {{ p.nama }}"
+                     class="w-16 h-16 object-cover rounded-md mb-2 cursor-pointer"
+                     onclick="showImageModal('{{ p.foto_produk.url }}')">
+              {% endif %}
+              <div>
+                <p class="font-medium text-gray-800">{{ p.nama }}</p>
+                <p class="text-sm text-gray-600">Rp{{ p.harga|floatformat:0|intcomma }}</p>
+                <p class="text-xs mt-1">
+                  {% if p.is_active %}
+                    <span class="text-green-600 font-semibold">Aktif</span>
+                  {% else %}
+                    <span class="text-red-600 font-semibold">Nonaktif</span>
+                  {% endif %}
+                </p>
+              </div>
             </div>
             <div class="flex gap-2">
               <a href="{% url 'toko:edit_produk' p.pk %}"
@@ -34,17 +48,6 @@
               </a>
             </div>
           </li>
-          <tr>
-            <td>{{ p.nama }}</td>
-            <td>{{ p.harga }}</td>
-            <td>
-              {% if p.is_active %}
-                <span class="text-green-600 font-semibold">Aktif</span>
-              {% else %}
-                <span class="text-red-600 font-semibold">Nonaktif</span>
-              {% endif %}
-            </td>
-          </tr>
         {% empty %}
           <li class="text-gray-500">Belum ada produk.</li>
         {% endfor %}
@@ -60,4 +63,48 @@
     </div>
   {% endif %}
 </div>
+
+<!-- Modal Preview Gambar -->
+<div id="imageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden">
+  <div class="relative max-w-3xl mx-auto animate-fade-in">
+    <button onclick="closeImageModal()"
+            class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 z-50">
+      ❌
+    </button>
+    <img id="modalImage" src="" class="max-h-[90vh] rounded-lg shadow-lg">
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function showImageModal(imageUrl) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('modalImage');
+    if (modal && img) {
+      img.src = imageUrl;
+      modal.classList.remove('hidden');
+    }
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('modalImage');
+    if (modal && img) {
+      img.src = '';
+      modal.classList.add('hidden');
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          closeImageModal();
+        }
+      });
+    }
+  });
+</script>
 {% endblock %}

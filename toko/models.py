@@ -17,6 +17,7 @@ class Produk(models.Model):
     nama = models.CharField(max_length=100)
     deskripsi = models.TextField(blank=True)
     harga = models.DecimalField(max_digits=10, decimal_places=2)
+    foto_produk = models.ImageField(upload_to='produk/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
 

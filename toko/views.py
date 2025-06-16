@@ -92,7 +92,7 @@ def dashboard_mitra(request):
 def tambah_produk(request):
     toko = get_object_or_404(Toko, user=request.user)
     if request.method == 'POST':
-        form = ProdukForm(request.POST)
+        form = ProdukForm(request.POST,  request.FILES)
         if form.is_valid():
             produk = form.save(commit=False)
             produk.toko = toko

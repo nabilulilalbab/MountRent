@@ -1,35 +1,113 @@
 {% extends "base.html" %}
+{% load humanize %}
+
 {% block content %}
-<h2>{{ toko.nama }}</h2>
-<p>{{ toko.alamat }} - {{ toko.kabupaten }}</p>
+<h2 class="text-2xl font-bold mb-2">{{ toko.nama }}</h2>
+<p class="mb-4 text-gray-700">{{ toko.alamat }} - {{ toko.kabupaten }}</p>
 
-<form method="get">
-  <input type="text" name="q" value="{{ query }}" placeholder="Cari produk...">
-  <button type="submit">Cari</button>
+<!-- Form Pencarian Produk -->
+<form method="get" class="mb-6 flex gap-2">
+  <input type="text" name="q" value="{{ query }}" placeholder="Cari produk..."
+         class="border p-2 rounded w-full max-w-sm">
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Cari</button>
 </form>
 
+<!-- Form Pilih Produk untuk WhatsApp -->
 <form action="https://wa.me/{{ toko.user.no_hp }}" method="get" target="_blank" onsubmit="return submitWhatsAppForm(this);">
-  {% for p in produk %}
-    <label>
-      <input type="checkbox" name="produk" value="{{ p.nama }}"> {{ p.nama }} - Rp{{ p.harga }}
-    </label><br>
-  {% endfor %}
-  <button type="submit">Sewa via WhatsApp</button>
+  <div class="space-y-4">
+    {% for p in produk %}
+      <div class="flex flex-col md:flex-row items-start gap-4 p-4 border rounded-lg shadow-sm hover:shadow-md transition bg-white">
+        <!-- Gambar Produk -->
+        <div class="w-full md:w-28">
+          {% if p.foto_produk %}
+            <img src="{{ p.foto_produk.url }}"
+                 alt="Foto produk {{ p.nama }}"
+                 class="w-full h-28 object-cover rounded cursor-pointer"
+                 onclick="showImageModal('{{ p.foto_produk.url }}')">
+          {% else %}
+            <div class="w-full h-28 bg-gray-200 rounded flex items-center justify-center text-sm text-gray-500">
+              No Image
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Info Produk -->
+        <div class="flex-1 w-full space-y-2">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-semibold text-gray-800 text-lg">{{ p.nama }}</p>
+              <p class="text-blue-600 font-semibold">Rp{{ p.harga|floatformat:0|intcomma }}</p>
+            </div>
+            <input type="checkbox" name="produk" value="{{ p.nama }}" class="mt-1 accent-green-600 scale-125">
+          </div>
+          <p class="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{{ p.deskripsi }}</p>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-gray-500">Belum ada produk.</p>
+    {% endfor %}
+  </div>
+
+  <button type="submit" class="mt-6 bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700 transition">
+    ✅ Sewa via WhatsApp
+  </button>
 </form>
 
+<!-- Modal Preview Gambar -->
+<div id="imageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden">
+  <div class="relative max-w-3xl mx-auto animate-fade-in">
+    <button onclick="closeImageModal()"
+            class="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 z-50">
+      ❌
+    </button>
+    <img id="modalImage" src="" class="max-h-[90vh] rounded-lg shadow-lg">
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
 <script>
-function submitWhatsAppForm(form) {
-  const checked = [...form.querySelectorAll('input[name="produk"]:checked')];
-  if (checked.length === 0) {
-    alert("Pilih setidaknya satu produk!");
-    return false;
+  function showImageModal(imageUrl) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('modalImage');
+    if (modal && img) {
+      img.src = imageUrl;
+      modal.classList.remove('hidden');
+    }
   }
 
-  const produkList = checked.map(cb => `- ${cb.value}`).join('%0A');
-  const pesan = `Halo, saya ingin menyewa alat berikut:%0A${produkList}`;
-  const nomor = form.action;
-  window.open(`${nomor}?text=${pesan}`, '_blank');
-  return false;
-}
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('modalImage');
+    if (modal && img) {
+      img.src = '';
+      modal.classList.add('hidden');
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById('imageModal');
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          closeImageModal();
+        }
+      });
+    }
+  });
+
+  function submitWhatsAppForm(form) {
+    const checked = [...form.querySelectorAll('input[name="produk"]:checked')];
+    if (checked.length === 0) {
+      alert("Pilih setidaknya satu produk!");
+      return false;
+    }
+
+    const produkList = checked.map(cb => `- ${cb.value}`).join('%0A');
+    const pesan = `Halo, saya ingin menyewa alat berikut:%0A${produkList}`;
+    const nomor = form.action;
+    window.open(`${nomor}?text=${pesan}`, '_blank');
+    return false;
+  }
 </script>
 {% endblock %}
