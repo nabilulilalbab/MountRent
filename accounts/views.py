@@ -6,14 +6,14 @@ from django.contrib import messages
 
 def user_register(request):
     if request.user.is_authenticated:
-        return redirect('home')  # atau bisa redirect sesuai role
+        return redirect('gunung:home')  # atau bisa redirect sesuai role
 
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect('gunung:home')
     else:
         form = UserRegisterForm()
     return render(request, 'accounts/register_user.html', {'form': form})
@@ -23,7 +23,7 @@ def mitra_register(request):
         if request.user.role == 'mitra':
             return redirect('toko:dashboard_mitra')
         else:
-            return redirect('home')
+            return redirect('gunung:home')
 
     if request.method == 'POST':
         form = MitraRegisterForm(request.POST, request.FILES)
